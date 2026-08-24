@@ -12,6 +12,7 @@ import StatusBanner from "./components/StatusBanner";
 import ResultTabs from "./components/ResultTabs";
 import MeetingList from "./components/MeetingList";
 import AudioPlayer from "./components/AudioPlayer";
+import IntroSplash from "./components/IntroSplash";
 
 const POLL_INTERVAL_MS = 3000;
 
@@ -190,6 +191,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ink-950 text-ink-200 flex flex-col font-sans selection:bg-accent-subtle selection:text-copper-200">
+      {/* ── Intro Mic Sweep on First Load ── */}
+      <IntroSplash />
+
       {/* ── App Header ── */}
       <header className="border-b border-ink-800/80 bg-ink-900/80 backdrop-blur-md px-6 py-3.5 flex items-center justify-between sticky top-0 z-30">
         <div className="flex items-center gap-3">
