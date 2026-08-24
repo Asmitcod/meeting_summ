@@ -25,7 +25,7 @@ export default function ActionItem({ item, index }) {
         }
       `}
     >
-      {/* Checkbox circle */}
+      {/* Checkbox */}
       <button
         type="button"
         onClick={(e) => {
@@ -34,8 +34,8 @@ export default function ActionItem({ item, index }) {
         }}
         className={`w-5 h-5 rounded-md mt-0.5 flex-shrink-0 flex items-center justify-center border transition-all ${
           completed
-            ? "bg-accent border-accent text-ink-950"
-            : "border-ink-600 group-hover:border-accent/60 bg-ink-900"
+            ? "bg-teal-500 border-teal-500 text-ink-950"
+            : "border-ink-600 group-hover:border-teal-500/60 bg-ink-900"
         }`}
       >
         {completed && (
@@ -49,8 +49,8 @@ export default function ActionItem({ item, index }) {
         )}
       </button>
 
-      {/* Task text & meta */}
-      <div className="flex-1 min-w-0 space-y-2">
+      {/* Task text & meta (Sans typography) */}
+      <div className="flex-1 min-w-0 space-y-2 font-sans">
         <p
           className={`text-sm leading-relaxed transition-colors ${
             completed ? "line-through text-ink-500" : "text-ink-100 font-medium"
@@ -60,12 +60,12 @@ export default function ActionItem({ item, index }) {
         </p>
 
         <div className="flex flex-wrap items-center gap-2 pt-0.5">
-          {/* Owner pill with avatar */}
+          {/* Owner pill */}
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink-900 border border-ink-750 text-xs">
             <span
               className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold ${
                 isAssigned
-                  ? "bg-copper-500/20 text-copper-300 font-mono"
+                  ? "bg-teal-500/20 text-teal-300"
                   : "bg-ink-700 text-ink-400"
               }`}
             >
@@ -78,8 +78,8 @@ export default function ActionItem({ item, index }) {
 
           {/* Deadline pill */}
           {hasDeadline && (
-            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-ink-900 border border-ink-750 text-xs text-ink-300 font-mono">
-              <svg className="w-3 h-3 text-copper-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-ink-900 border border-ink-750 text-xs text-ink-300">
+              <svg className="w-3 h-3 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span>{item.deadline}</span>

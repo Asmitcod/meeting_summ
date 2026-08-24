@@ -111,18 +111,18 @@ export default function MeetingList({
                 group relative rounded-xl p-3 cursor-pointer transition-all duration-150 border
                 ${
                   isActive
-                    ? "bg-ink-850 border-accent/60 shadow-glow"
-                    : "bg-ink-900/50 border-transparent hover:bg-ink-850/70 hover:border-ink-750"
+                    ? "bg-ink-850 border-teal-500/50 shadow-sm"
+                    : "bg-ink-900/40 border-transparent hover:bg-ink-850/60 hover:border-ink-750"
                 }
               `}
             >
               {/* Left active accent bar */}
               {isActive && (
-                <div className="absolute left-0 top-2 bottom-2 w-1 bg-accent rounded-r" />
+                <div className="absolute left-0 top-2 bottom-2 w-1 bg-teal-500 rounded-r" />
               )}
 
               <div className="flex items-start justify-between gap-2">
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 font-sans">
                   <p
                     className={`text-xs sm:text-sm font-medium truncate ${
                       isActive ? "text-ink-100 font-semibold" : "text-ink-200 group-hover:text-ink-100"
@@ -139,10 +139,10 @@ export default function MeetingList({
                     {/* Show status badge ONLY if not done */}
                     {hasSpecialStatus && (
                       <span
-                        className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-medium ${
+                        className={`text-[10px] font-sans px-1.5 py-0.2 rounded font-medium ${
                           isError
                             ? "bg-red-500/15 text-red-400 border border-red-500/30"
-                            : "bg-copper-500/15 text-copper-400 border border-copper-500/30 animate-pulse"
+                            : "bg-teal-500/15 text-teal-300 border border-teal-500/30 animate-pulse"
                         }`}
                       >
                         {m.status}

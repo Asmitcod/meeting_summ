@@ -38,17 +38,17 @@ export default function IntroSplash({ onFinish }) {
         <div className="animate-mic-sweep flex items-center gap-3">
           {/* Audio trailing particle waves */}
           <div className="flex items-center gap-1.5 opacity-60">
-            <div className="w-1 h-3 bg-accent rounded-full animate-pulse" />
-            <div className="w-1 h-6 bg-copper-400 rounded-full" />
-            <div className="w-1 h-9 bg-accent rounded-full" />
-            <div className="w-1 h-5 bg-copper-500 rounded-full" />
-            <div className="w-1 h-8 bg-accent rounded-full" />
+            <div className="w-1 h-3 bg-teal-500 rounded-full animate-pulse" />
+            <div className="w-1 h-6 bg-teal-400 rounded-full" />
+            <div className="w-1 h-9 bg-teal-500 rounded-full" />
+            <div className="w-1 h-5 bg-teal-600 rounded-full" />
+            <div className="w-1 h-8 bg-teal-500 rounded-full" />
           </div>
 
           {/* Glowing Studio Mic */}
           <div className="relative flex items-center justify-center">
-            <div className="absolute inset-0 rounded-2xl bg-accent blur-lg opacity-70 animate-ping" />
-            <div className="w-14 h-14 rounded-2xl bg-accent text-ink-950 flex items-center justify-center font-bold shadow-glow relative z-10 scale-110">
+            <div className="absolute inset-0 rounded-2xl bg-teal-500 blur-lg opacity-60 animate-ping" />
+            <div className="w-14 h-14 rounded-2xl bg-teal-600 text-ink-950 flex items-center justify-center font-bold shadow-glow relative z-10 scale-110">
               <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
                 <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" />
               </svg>
@@ -57,24 +57,24 @@ export default function IntroSplash({ onFinish }) {
 
           {/* Forward sound waves */}
           <div className="flex items-center gap-1.5 opacity-80">
-            <div className="w-1 h-8 bg-accent rounded-full" />
-            <div className="w-1 h-5 bg-copper-400 rounded-full" />
-            <div className="w-1 h-10 bg-accent rounded-full" />
-            <div className="w-1 h-6 bg-copper-500 rounded-full" />
-            <div className="w-1 h-3 bg-accent rounded-full animate-pulse" />
+            <div className="w-1 h-8 bg-teal-500 rounded-full" />
+            <div className="w-1 h-5 bg-teal-400 rounded-full" />
+            <div className="w-1 h-10 bg-teal-500 rounded-full" />
+            <div className="w-1 h-6 bg-teal-600 rounded-full" />
+            <div className="w-1 h-3 bg-teal-500 rounded-full animate-pulse" />
           </div>
         </div>
       </div>
 
       {/* Subtle branding hint */}
       <div className="absolute bottom-12 flex flex-col items-center gap-2">
-        <span className="text-xs font-mono tracking-widest text-ink-500 uppercase">
+        <span className="text-xs font-sans font-medium tracking-wider text-ink-400 uppercase">
           Initializing Speech Engine
         </span>
         <div className="flex gap-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:-0.3s]" />
-          <div className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:-0.15s]" />
-          <div className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" />
+          <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:-0.3s]" />
+          <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:-0.15s]" />
+          <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-bounce" />
         </div>
       </div>
     </div>

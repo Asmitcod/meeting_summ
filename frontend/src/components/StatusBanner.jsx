@@ -34,46 +34,46 @@ export default function StatusBanner({ status, errorMessage }) {
 
   if (status === "waking") {
     return (
-      <div className="rounded-2xl border border-copper-500/30 bg-copper-500/10 p-5 shadow-subtle flex items-center gap-4 animate-pulse">
-        <div className="w-10 h-10 rounded-xl bg-copper-500/20 text-copper-400 flex items-center justify-center flex-shrink-0">
-          <div className="w-4 h-4 border-2 border-copper-400 border-t-transparent rounded-full animate-spin" />
+      <div className="rounded-2xl border border-teal-500/30 bg-teal-500/10 p-4 sm:p-5 shadow-subtle flex items-center gap-4 animate-pulse">
+        <div className="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center flex-shrink-0">
+          <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
         </div>
         <div>
-          <p className="font-semibold text-copper-300 text-sm">Waking up cloud service…</p>
-          <p className="text-ink-400 text-xs mt-0.5">Free-tier instance starting up (takes ~30s on cold start)</p>
+          <p className="font-semibold text-teal-200 text-sm font-sans">Connecting to backend…</p>
+          <p className="text-ink-400 text-xs mt-0.5 font-sans">Free-tier service is waking up (takes ~30s on cold start)</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-ink-750 bg-ink-900/90 p-5 shadow-subtle">
+    <div className="rounded-2xl border border-ink-750 bg-ink-900 p-4 sm:p-5 shadow-subtle">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Header */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-accent-subtle border border-accent/30 text-accent flex items-center justify-center">
-            <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+          <div className="w-9 h-9 rounded-xl bg-teal-500/15 border border-teal-500/30 text-teal-400 flex items-center justify-center">
+            <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
           </div>
           <div>
-            <p className="font-semibold text-ink-100 text-sm">Processing Audio Pipeline</p>
-            <p className="text-xs text-ink-400 font-mono mt-0.5">
-              Groq Whisper & LLaMA · Polling every 3s
+            <p className="font-semibold text-ink-100 text-sm font-sans">Processing Recording</p>
+            <p className="text-xs text-ink-400 font-sans mt-0.5">
+              Groq Whisper & LLaMA · Updating live
             </p>
           </div>
         </div>
 
         {/* Mini Step Track */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 font-sans">
           {steps.map((step, idx) => {
             const state = getStepState(idx);
             return (
-              <div key={step.key} className="flex items-center gap-2">
+              <div key={step.key} className="flex items-center gap-1.5">
                 <span
-                  className={`text-[11px] font-mono px-2.5 py-1 rounded-md transition-colors ${
+                  className={`text-xs px-2.5 py-1 rounded-lg transition-colors ${
                     state === "completed"
                       ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
                       : state === "active"
-                      ? "bg-accent-subtle text-accent border border-accent/40 animate-pulse font-medium"
+                      ? "bg-teal-500/15 text-teal-300 border border-teal-500/40 font-medium"
                       : "bg-ink-800 text-ink-500 border border-ink-750"
                   }`}
                 >

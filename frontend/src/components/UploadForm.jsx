@@ -44,31 +44,28 @@ export default function UploadForm({ onUpload, isUploading }) {
     <div
       {...getRootProps()}
       className={`
-        relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer p-8 sm:p-10 select-none group
+        relative overflow-hidden rounded-2xl border transition-all duration-200 cursor-pointer p-8 sm:p-9 select-none group
         ${
           isDragActive
-            ? "border-accent bg-accent-subtle shadow-glow scale-[1.008]"
-            : "border-ink-750/90 bg-ink-900/90 hover:border-ink-600 hover:bg-ink-850 shadow-subtle"
+            ? "border-teal-500 bg-teal-500/10 shadow-glow scale-[1.005]"
+            : "border-ink-750 bg-ink-900 hover:border-ink-600 hover:bg-ink-850 shadow-subtle"
         }
         ${isUploading ? "opacity-60 cursor-not-allowed pointer-events-none" : ""}
       `}
     >
-      {/* Ambient background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#272c3a_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none" />
-
       <input {...getInputProps()} />
 
-      <div className="relative z-10 flex flex-col items-center text-center gap-4">
-        {/* Solid Mic Capsule Badge */}
+      <div className="flex flex-col items-center text-center gap-3.5">
+        {/* Solid Mic Badge */}
         <div
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-md ${
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 ${
             isDragActive
-              ? "bg-accent text-ink-950 scale-110 shadow-glow"
-              : "bg-ink-800 border border-ink-700 text-copper-400 group-hover:border-accent/40 group-hover:text-accent group-hover:bg-ink-750"
+              ? "bg-teal-500 text-ink-950 scale-105 shadow-glow"
+              : "bg-ink-800 border border-ink-700 text-teal-400 group-hover:border-teal-500/40 group-hover:text-teal-300 group-hover:bg-ink-750"
           }`}
         >
           <svg
-            className="w-7 h-7"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -82,29 +79,24 @@ export default function UploadForm({ onUpload, isUploading }) {
           </svg>
         </div>
 
-        {/* Text hierarchy */}
-        <div className="space-y-1.5 max-w-md">
-          <p className="text-base sm:text-lg font-semibold text-ink-100 tracking-tight">
+        {/* Text hierarchy in Clean UI Sans */}
+        <div className="space-y-1 max-w-md">
+          <p className="text-base font-semibold text-ink-100 font-sans tracking-tight">
             {isDragActive ? (
-              <span className="text-accent">Release audio to begin processing</span>
+              <span className="text-teal-400">Drop audio to start transcription</span>
             ) : (
-              <span>Drop meeting recording here</span>
+              <span>Upload a meeting recording</span>
             )}
           </p>
-          <p className="text-xs sm:text-sm text-ink-400 font-normal">
-            or <span className="text-accent underline underline-offset-4 font-medium hover:text-accent-hover">browse files</span> on your computer
+          <p className="text-xs text-ink-400 font-sans">
+            Drag & drop an audio file, or <span className="text-teal-400 font-medium hover:text-teal-300 underline underline-offset-2">browse files</span>
           </p>
         </div>
 
-        {/* Audio format badges */}
-        <div className="flex items-center gap-2 pt-1">
-          <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-ink-800/80 border border-ink-700/60 text-ink-400">
-            MP3 · WAV · M4A · OGG
-          </span>
-          <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-ink-800/80 border border-ink-700/60 text-ink-500">
-            Up to 25 MB
-          </span>
-        </div>
+        {/* Plain inline caption line (not boxed chip pills) */}
+        <p className="text-[11px] text-ink-500 font-sans pt-0.5">
+          MP3, WAV, M4A, OGG · Up to 25 MB
+        </p>
       </div>
     </div>
   );

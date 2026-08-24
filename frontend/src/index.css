@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-ink-950 text-ink-200 antialiased font-sans selection:bg-copper-500/30 selection:text-copper-200;
+    @apply bg-ink-950 text-ink-200 antialiased font-sans selection:bg-teal-500/25 selection:text-teal-100;
   }
   
   /* Custom scrollbar */

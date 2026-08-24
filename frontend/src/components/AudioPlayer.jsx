@@ -102,10 +102,10 @@ export default function AudioPlayer({
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="bg-ink-900 border border-ink-750/80 rounded-2xl p-4 sm:p-5 shadow-subtle relative overflow-hidden group">
+    <div className="bg-ink-900 border border-ink-750 rounded-2xl p-4 sm:p-5 shadow-subtle relative overflow-hidden group">
       {/* Background ambient audio glow */}
       <div 
-        className="absolute -right-20 -top-20 w-48 h-48 bg-accent/5 rounded-full blur-3xl pointer-events-none transition-opacity duration-500"
+        className="absolute -right-20 -top-20 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl pointer-events-none transition-opacity duration-500"
         style={{ opacity: isPlaying ? 0.9 : 0.2 }}
       />
 
@@ -122,10 +122,10 @@ export default function AudioPlayer({
       <div className="flex flex-col gap-3.5 relative z-10">
         {/* Top bar: Play button + Waveform scrubber */}
         <div className="flex items-center gap-4">
-          {/* Main Play/Pause Button */}
+          {/* Main Play/Pause Button in Muted Teal */}
           <button
             onClick={togglePlay}
-            className="w-12 h-12 rounded-xl bg-accent hover:bg-accent-hover active:bg-accent-active text-ink-950 flex items-center justify-center font-bold shadow-glow transition-all duration-200 flex-shrink-0 group-hover:scale-105 active:scale-95"
+            className="w-11 h-11 rounded-xl bg-teal-500 hover:bg-teal-400 active:bg-teal-600 text-ink-950 flex items-center justify-center font-bold shadow-glow transition-all duration-150 flex-shrink-0 group-hover:scale-105 active:scale-95"
             title={isPlaying ? "Pause" : "Play recording"}
           >
             {isPlaying ? (
@@ -145,7 +145,7 @@ export default function AudioPlayer({
             <div
               ref={waveformRef}
               onClick={handleWaveformClick}
-              className="h-10 flex items-center gap-1 cursor-pointer group/wave py-1"
+              className="h-9 flex items-center gap-1 cursor-pointer group/wave py-1"
               title="Click anywhere on waveform to seek"
             >
               {bars.map((barHeight, idx) => {
@@ -159,7 +159,7 @@ export default function AudioPlayer({
                     <div
                       className={`w-full max-w-[4px] rounded-full transition-all duration-150 ${
                         isPlayed
-                          ? "bg-accent shadow-[0_0_8px_rgba(232,122,66,0.5)]"
+                          ? "bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.5)]"
                           : "bg-ink-700 group-hover/wave:bg-ink-600"
                       } ${isPlaying && isPlayed ? "opacity-100" : "opacity-85"}`}
                       style={{
@@ -171,28 +171,28 @@ export default function AudioPlayer({
               })}
             </div>
 
-            {/* Time labels & live progress bar */}
-            <div className="flex items-center justify-between text-xs font-mono text-ink-400 select-none">
-              <span className="text-accent font-semibold">{formatTime(currentTime)}</span>
-              <span className="text-ink-500">/ {formatTime(duration)}</span>
+            {/* Time labels (Monospace only for numbers) */}
+            <div className="flex items-center justify-between text-xs select-none">
+              <span className="text-teal-300 font-mono font-medium">{formatTime(currentTime)}</span>
+              <span className="text-ink-500 font-mono">/ {formatTime(duration)}</span>
             </div>
           </div>
         </div>
 
         {/* Bottom controls: Audio meta info + playback speed + mute */}
-        <div className="flex items-center justify-between pt-1 border-t border-ink-800/80 text-xs">
-          <div className="flex items-center gap-2 text-ink-400">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500/80 animate-pulse" />
-            <span className="font-mono text-[11px] text-ink-300 truncate max-w-[200px]">
+        <div className="flex items-center justify-between pt-1 border-t border-ink-800 text-xs">
+          <div className="flex items-center gap-2 text-ink-400 font-sans">
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="text-xs text-ink-300 truncate max-w-[220px]">
               {title}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 font-sans">
             {/* Speed toggle */}
             <button
               onClick={toggleSpeed}
-              className="px-2 py-1 rounded-md bg-ink-800 hover:bg-ink-750 text-ink-300 hover:text-ink-100 font-mono text-[11px] font-medium transition-colors border border-ink-700/60"
+              className="px-2 py-1 rounded-md bg-ink-800 hover:bg-ink-750 text-ink-300 hover:text-ink-100 font-mono text-[11px] font-medium transition-colors border border-ink-700"
               title="Change playback speed"
             >
               {playbackRate}x
