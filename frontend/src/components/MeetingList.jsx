@@ -1,73 +1,172 @@
+import { useState, useMemo } from "react";
 import { deleteMeeting } from "../api/meetings";
 import toast from "react-hot-toast";
 
-const STATUS_BADGE = {
-  pending:    "bg-yellow-500/20 text-yellow-400",
-  processing: "bg-brand-500/20 text-brand-400",
-  done:       "bg-emerald-500/20 text-emerald-400",
-  error:      "bg-red-500/20 text-red-400",
-};
+function formatRelativeTime(dateStr) {
+  if (!dateStr) return "";
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffInSecs = Math.floor((now - date) / 1000);
 
-function formatDate(iso) {
-  return new Date(iso).toLocaleString(undefined, {
-    month: "short", day: "numeric",
-    hour: "2-digit", minute: "2-digit",
-  });
+  if (diffInSecs < 60) return "Just now";
+  if (diffInSecs < 3600) {
+    const mins = Math.floor(diffInSecs / 60);
+    return `${mins}m ago`;
+  }
+  if (diffInSecs < 86400) {
+    const hours = Math.floor(diffInSecs / 3600);
+    return `${hours}h ago`;
+  }
+  if (diffInSecs < 172800) return "Yesterday";
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
-export default function MeetingList({ meetings, activeMeetingId, onSelect, onDelete }) {
+function cleanTitle(rawTitle) {
+  if (!rawTitle) return "Untitled Meeting";
+  return rawTitle
+    .replace(/\.[^.]+$/, "") // strip extension
+    .replace(/[-_]+/g, " ") // replace dashes/underscores with space
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export default function MeetingList({
+  meetings,
+  activeMeetingId,
+  onSelect,
+  onDelete,
+}) {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleDelete = async (e, id) => {
     e.stopPropagation();
-    if (!confirm("Delete this meeting?")) return;
+    if (!confirm("Delete this meeting record?")) return;
     try {
       await deleteMeeting(id);
-      toast.success("Meeting deleted.");
+      toast.success("Meeting removed");
       onDelete(id);
     } catch {
-      toast.error("Failed to delete meeting.");
+      toast.error("Could not delete meeting");
     }
   };
 
-  if (!meetings.length) {
+  const filteredMeetings = useMemo(() => {
+    if (!searchQuery.trim()) return meetings;
+    const query = searchQuery.toLowerCase();
+    return meetings.filter((m) =>
+      cleanTitle(m.title).toLowerCase().includes(query)
+    );
+  }, [meetings, searchQuery]);
+
+  if (!meetings || meetings.length === 0) {
     return (
-      <div className="text-slate-500 text-sm italic px-4 py-6 text-center">
-        No past meetings yet.
+      <div className="py-12 px-4 text-center">
+        <div className="w-10 h-10 rounded-xl bg-ink-850 border border-ink-750 text-ink-500 mx-auto flex items-center justify-center mb-3">
+          🎙️
+        </div>
+        <p className="text-xs font-medium text-ink-400">No recordings yet</p>
+        <p className="text-[11px] text-ink-500 mt-1">Upload an audio clip to get started</p>
       </div>
     );
   }
 
   return (
-    <ul className="space-y-1">
-      {meetings.map((m) => (
-        <li
-          key={m.id}
-          onClick={() => onSelect(m.id)}
-          className={`
-            group flex items-start gap-3 px-3 py-3 rounded-xl cursor-pointer transition-colors
-            ${activeMeetingId === m.id
-              ? "bg-brand-500/15 border border-brand-500/30"
-              : "hover:bg-slate-800 border border-transparent"
-            }
-          `}
-        >
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-200 truncate">{m.title}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{formatDate(m.created_at)}</p>
-            <span className={`inline-block text-xs px-2 py-0.5 rounded-full mt-1 font-medium ${STATUS_BADGE[m.status] || ""}`}>
-              {m.status}
-            </span>
+    <div className="flex flex-col h-full gap-2">
+      {/* Subtle search filter if more than 3 meetings */}
+      {meetings.length > 3 && (
+        <div className="px-2 pb-1">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Filter meetings..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-ink-850 border border-ink-750/70 rounded-lg px-3 py-1.5 text-xs text-ink-200 placeholder-ink-500 focus:outline-none focus:border-accent/60 font-sans"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-500 hover:text-ink-300 text-xs"
+              >
+                ×
+              </button>
+            )}
           </div>
+        </div>
+      )}
 
-          {/* Delete button — visible on hover */}
-          <button
-            onClick={(e) => handleDelete(e, m.id)}
-            className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400 text-lg flex-shrink-0 mt-0.5"
-            title="Delete meeting"
-          >
-            ×
-          </button>
-        </li>
-      ))}
-    </ul>
+      <ul className="space-y-1.5 overflow-y-auto px-1">
+        {filteredMeetings.map((m) => {
+          const isActive = activeMeetingId === m.id;
+          const isPending = m.status === "pending";
+          const isProcessing = m.status === "processing";
+          const isError = m.status === "error";
+          const hasSpecialStatus = isPending || isProcessing || isError;
+
+          return (
+            <li
+              key={m.id}
+              onClick={() => onSelect(m.id)}
+              className={`
+                group relative rounded-xl p-3 cursor-pointer transition-all duration-150 border
+                ${
+                  isActive
+                    ? "bg-ink-850 border-accent/60 shadow-glow"
+                    : "bg-ink-900/50 border-transparent hover:bg-ink-850/70 hover:border-ink-750"
+                }
+              `}
+            >
+              {/* Left active accent bar */}
+              {isActive && (
+                <div className="absolute left-0 top-2 bottom-2 w-1 bg-accent rounded-r" />
+              )}
+
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <p
+                    className={`text-xs sm:text-sm font-medium truncate ${
+                      isActive ? "text-ink-100 font-semibold" : "text-ink-200 group-hover:text-ink-100"
+                    }`}
+                  >
+                    {cleanTitle(m.title)}
+                  </p>
+
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[11px] font-mono text-ink-500">
+                      {formatRelativeTime(m.created_at)}
+                    </span>
+
+                    {/* Show status badge ONLY if not done */}
+                    {hasSpecialStatus && (
+                      <span
+                        className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-medium ${
+                          isError
+                            ? "bg-red-500/15 text-red-400 border border-red-500/30"
+                            : "bg-copper-500/15 text-copper-400 border border-copper-500/30 animate-pulse"
+                        }`}
+                      >
+                        {m.status}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Delete button on hover */}
+                <button
+                  type="button"
+                  onClick={(e) => handleDelete(e, m.id)}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-ink-500 hover:text-red-400 rounded hover:bg-ink-800 flex-shrink-0"
+                  title="Delete recording"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
