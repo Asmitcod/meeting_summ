@@ -153,7 +153,7 @@ def list_meetings():
     supabase = get_supabase()
     response = (
         supabase.table("meetings")
-        .select("id, title, status, created_at")
+        .select("id, title, status, created_at, updated_at")
         .order("created_at", desc=True)
         .execute()
     )

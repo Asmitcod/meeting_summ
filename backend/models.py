@@ -22,7 +22,7 @@ class MeetingListItem(BaseModel):
     title: str
     status: str
     created_at: datetime
-    updated_at: datetime
+    updated_at: Optional[datetime] = None
 
 
 class MeetingDetail(BaseModel):
@@ -36,7 +36,7 @@ class MeetingDetail(BaseModel):
     status: str
     error_message: Optional[str] = None
     created_at: datetime
-    updated_at: datetime  # auto-maintained by trg_meetings_updated_at trigger
+    updated_at: Optional[datetime] = None  # auto-maintained by trg_meetings_updated_at trigger
 
 
 class UploadResponse(BaseModel):
